@@ -17,6 +17,5 @@ namespace FlightDataGenerator
         public string Codeshare { get; set; } //"Y" if this flight is a codeshare (that is, not operated by Airline, but another carrier), empty otherwise.
         public string Stops { get; set; } //Number of stops on this flight ("0" for direct)
         public string Equipment { get; set; } //3-letter codes for plane type(s) generally used on this flight, separated by spaces
-        public double Price { get; set; }
     }
 }

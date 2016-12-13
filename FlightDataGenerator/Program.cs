@@ -9,7 +9,7 @@ namespace FlightDataGenerator
 {
     class Program
     {
-        private static int FlightsToGenerate = 10;
+        private static int FlightsToGenerate = 1000;
         private static int RadiusOfEarthInKm = 6373;
         private static Random r;
 
@@ -120,21 +120,29 @@ namespace FlightDataGenerator
                     }
                     else
                     {
-                        if (!dataArray[3].Equals("\\N") || !dataArray[5].Equals("\\N"))
+                        if (!dataArray[3].Equals("\\N") && !dataArray[5].Equals("\\N"))
                         {
-                            var currentRoute = new RouteData()
+                            var sourceAirport = AirportList.Where(s => s.AirportID == Int32.Parse(dataArray[3])).First();
+                            var destAirport = AirportList.Where(s => s.AirportID == Int32.Parse(dataArray[5])).First();
+
+                            if (sourceAirport.AirportID >= 0 && destAirport.AirportID >= 0) {
+                                var currentRoute = new RouteData()
+                                {
+                                    Airline = dataArray[0].Replace("\"", ""),
+                                    AirlineID = Int32.Parse(dataArray[1].Equals("\\N") ? "0" : dataArray[1]),
+                                    SourceAirport = dataArray[2].Replace("\"", ""),
+                                    SourceAirportId = Int32.Parse(dataArray[3]),
+                                    DestinationAirport = dataArray[4].Replace("\"", ""),
+                                    DestinationAirportId = Int32.Parse(dataArray[5]),
+                                    Codeshare = dataArray[6].Replace("\"", ""),
+                                    Stops = dataArray[7].Replace("\"", ""),
+                                    Equipment = dataArray[8].Replace("\"", "")
+                                };
+                                routes.Add(currentRoute);
+                            } else
                             {
-                                Airline = dataArray[0].Replace("\"", ""),
-                                AirlineID = Int32.Parse(dataArray[1].Equals("\\N") ? "0" : dataArray[1]),
-                                SourceAirport = dataArray[2].Replace("\"", ""),
-                                SourceAirportId = Int32.Parse(dataArray[3].Equals("\\N") ? "0" : dataArray[3]),
-                                DestinationAirport = dataArray[4].Replace("\"", ""),
-                                DestinationAirportId = Int32.Parse(dataArray[5].Equals("\\N") ? "0" : dataArray[5]),
-                                Codeshare = dataArray[6].Replace("\"", ""),
-                                Stops = dataArray[7].Replace("\"", ""),
-                                Equipment = dataArray[8].Replace("\"", "")
-                            };
-                            routes.Add(currentRoute);
+                                errorCount++;
+                            }
                         }
                     }
                 }
