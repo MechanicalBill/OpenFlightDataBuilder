@@ -166,12 +166,12 @@ namespace FlightDataGenerator
                 var flight = new ConsumerFlight();
                 var randomRoute = RouteList.ElementAt(r.Next(0, RouteList.Count));
 //                Console.WriteLine("Random number: " + r.Next(0, RouteList.Count));
-                generatedFlights.Add(GenerateFlightFromRoute(randomRoute));
+                generatedFlights.Add(GenerateFlightFromRoute(randomRoute, i));
             }
             return generatedFlights;
         }
 
-        public static ConsumerFlight GenerateFlightFromRoute(RouteData route)
+        public static ConsumerFlight GenerateFlightFromRoute(RouteData route, int flightId)
         {
             var sourceAirport = AirportList.Where(s => s.AirportID == route.SourceAirportId).First();
             var destinationAirport = AirportList.Where(d => d.AirportID == route.DestinationAirportId).First();
@@ -179,6 +179,7 @@ namespace FlightDataGenerator
             var price = GeneratePriceBasedOnDistance(distance);
             var flight = new ConsumerFlight()
             {
+                FlightId = flightId,
                 SourceAirportId = sourceAirport.AirportID,
                 SourceLongitude = sourceAirport.Longitude,
                 SourceLatitude = sourceAirport.Latitude,
@@ -215,6 +216,8 @@ namespace FlightDataGenerator
 
             foreach(var flight in flightList)
             {
+                sb.Append(flight.FlightId);
+                sb.Append(",");
                 sb.Append(flight.SourceAirportId.ToString());
                 sb.Append(",");
                 sb.Append(flight.SourceLongitude);
