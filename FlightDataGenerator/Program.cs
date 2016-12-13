@@ -9,7 +9,7 @@ namespace FlightDataGenerator
 {
     class Program
     {
-        private static int FlightsToGenerate = 1000;
+        private static int FlightsToGenerate = 10000;
         private static int RadiusOfEarthInKm = 6373;
         private static Random r;
 
@@ -30,6 +30,7 @@ namespace FlightDataGenerator
             var generatedFlights = GenerateFlightData();
             WriteFlightsToFile(generatedFlights);
 
+            Console.WriteLine("Press Enter/Return to exit...");
             Console.ReadLine();
         }
 
@@ -122,10 +123,10 @@ namespace FlightDataGenerator
                     {
                         if (!dataArray[3].Equals("\\N") && !dataArray[5].Equals("\\N"))
                         {
-                            var sourceAirport = AirportList.Where(s => s.AirportID == Int32.Parse(dataArray[3])).First();
-                            var destAirport = AirportList.Where(s => s.AirportID == Int32.Parse(dataArray[5])).First();
-
-                            if (sourceAirport.AirportID >= 0 && destAirport.AirportID >= 0) {
+                            var airportIds = AirportList.Select(s => s.AirportID);
+                            
+                            if (airportIds.Contains(Int32.Parse(dataArray[3])) && 
+                                airportIds.Contains(Int32.Parse(dataArray[5]))) {
                                 var currentRoute = new RouteData()
                                 {
                                     Airline = dataArray[0].Replace("\"", ""),
@@ -231,8 +232,9 @@ namespace FlightDataGenerator
                 sb.Append(flight.Price);
                 sb.Append("\n");
             }
-            Console.Write(sb.ToString());
+//            Console.Write(sb.ToString());
             File.AppendAllText("flights.dat", sb.ToString());
+            Console.WriteLine("Wrote " + flightList.Count() + " to the file 'flights.dat'");
         }
     }
 }
