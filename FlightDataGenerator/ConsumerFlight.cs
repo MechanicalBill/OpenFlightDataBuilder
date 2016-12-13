@@ -8,6 +8,7 @@ namespace FlightDataGenerator
 {
     public class ConsumerFlight
     {
+        public int FlightId { get; set; }
         public int SourceAirportId { get; set; }
         public double SourceLongitude { get; set; }
         public double SourceLatitude { get; set; }
