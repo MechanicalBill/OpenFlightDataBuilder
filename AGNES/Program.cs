@@ -162,7 +162,7 @@ namespace AGNES
 
         private static void WriteClusteringDiagramToFile(Cluster cluster)
         {
-            Console.Write("\n\n");
+//            Console.Write("\n\n");
             StringBuilder sb = new StringBuilder();
             sb.Append("LEVEL,,");
             foreach (var point in cluster.Points)
