@@ -9,7 +9,7 @@ namespace FlightDataGenerator
 {
     class Program
     {
-        private static int FlightsToGenerate = 10000;
+        private static int FlightsToGenerate = 900;
         private static int RadiusOfEarthInKm = 6373;
         private static Random r;
 
